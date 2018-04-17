@@ -5,14 +5,11 @@
  */
 package org.drracke.cityMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,21 +27,13 @@ class City extends JFrame {
     private BufferStrategy str;
     private long sleepTime = 5;
     private final int BUFFERS = 3;
-    private Image img;
     private boolean repainting = false;
-    private boolean showPaths = false;
+    private boolean showPaths = true;
     private ArrayList<int[][]> pathData;
 
     public City() {
         super("This is the city");
         cars = Collections.synchronizedList(new ArrayList<>());
-        try {
-            img = ImageIO.read(new File("Btfld.png"));
-        } catch (IOException ex) {
-            System.out.println("Background not found " + ex);
-        }
-
-        //this.setSize(this.winDim, this.winDim);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container cont = this.getContentPane();
         cont.setLayout(new FlowLayout());
@@ -106,7 +95,6 @@ class City extends JFrame {
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
-            g.drawImage(img, 0, 0, this);
             for (Car car : cars) {
                 car.painting(g);
             }

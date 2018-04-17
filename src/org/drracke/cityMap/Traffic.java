@@ -19,9 +19,20 @@ public class Traffic {
         City city = new City();
         city.begin();
         for (int i = 0; i < 5; i++) {
-            city.addRandomCar();
+            new Path();
         }
-        city.addCar(new Car());
-        city.addCar(new Car(new CircularPath()));
+
+        for (Path p :
+                Path.allPaths) {
+            System.out.print(p);
+            for (int[] foo : p.getPathLine()) {
+                for (int i : foo) {
+                    System.out.print(i + " ");
+                }
+            }
+            System.out.println();
+        }
+
+        city.repaint();
     }        
 }

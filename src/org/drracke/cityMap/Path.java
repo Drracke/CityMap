@@ -79,6 +79,12 @@ public class Path {
         return pos;
     }
 
+    @Override
+    public String toString() {
+        return "{[" + this.initPos.x + "," + this.initPos.y + "] ; " + "dir: " + this.direction + ", length " + length
+                + "}";
+    }
+
     private synchronized void checkPos(Position pos) throws PathException {
         boolean badPos = true;
 
@@ -134,8 +140,8 @@ public class Path {
 
 
         return new int[][]{
-                {initPos.x, initPos.y},
-                {xS, yS}
+                {initPos.x, xS},
+                {initPos.y, yS}
         };
     }
 
