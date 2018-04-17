@@ -7,6 +7,7 @@
 package org.drracke.citymap;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * @author Drracke
@@ -107,6 +108,18 @@ public class Path {
         return new int[][]{
             xS,yS            
         };
+    }
+
+    public static Path fromString(String stringed) {
+            Scanner s = new Scanner(stringed);
+            s.useDelimiter(";");
+        Position ps = new Position(s.nextInt(),s.nextInt());
+        Path ret = new Path(ps);
+        //direction
+        //length
+        //will only be straight lines
+
+        return ret;
     }
     
 }
