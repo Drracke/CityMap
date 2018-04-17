@@ -9,7 +9,7 @@ package org.drracke.citymap;
 /**
  * @author Drracke
  */
-public class PathException extends Throwable {
+public class PathException extends RuntimeException {
 
     public PathException() {
     }

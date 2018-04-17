@@ -23,7 +23,7 @@ public class Car {
     public Car(Position pos) {
         this.pos = pos;
         this.startMoving();
-        pth = new Path(pos);
+        pth = new Path();
     }
     
     public Car() {
@@ -85,7 +85,7 @@ public class Car {
 
     private void move() {
         try {
-        this.pos = this.pth.nextPos();
+        this.pos = this.pth.nextPos(this.pos);
         } catch (PathException e) {
             this.moving = false;
         }
