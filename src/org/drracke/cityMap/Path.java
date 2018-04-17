@@ -7,6 +7,8 @@
 package org.drracke.cityMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Scanner;
  */
 public class Path {
     public static final int step = 5; //number of pixels passed in one step on every path
-    public static final ArrayList<Path> allPaths;
+    public static final List<Path> allPaths;
 
     public static final int NORTH = 0;
     public static final int EAST = 1;
@@ -26,7 +28,8 @@ public class Path {
     private final int direction;
 
     static {
-        allPaths = new ArrayList<>();
+        List one = Collections.synchronizedList(new ArrayList<>());
+        allPaths = one;
     }
 
     {
@@ -37,9 +40,9 @@ public class Path {
         this.initPos = initPos;
         this.length = length;
         if (dir != EAST
-                || dir != WEST
-                || dir != SOUTH
-                || dir != NORTH) {
+                && dir != WEST
+                && dir != SOUTH
+                && dir != NORTH) {
             throw new PathException();
         }
         this.direction = dir;
@@ -53,6 +56,8 @@ public class Path {
     }
 
     public Position nextPos(Position pos) throws PathException {
+        if (pos == null)
+            throw new RuntimeException("null position :/");
         this.checkPos(pos);
         switch (this.direction) {
             case EAST:
@@ -74,8 +79,9 @@ public class Path {
         return pos;
     }
 
-    private void checkPos(Position pos) throws PathException {
+    private synchronized void checkPos(Position pos) throws PathException {
         boolean badPos = true;
+
         if (pos.x == initPos.x)
             badPos = false;
         if (pos.y == initPos.y)
@@ -155,5 +161,8 @@ public class Path {
         return ret;
     }
 
+    public Position getInitPos() {
+        return this.initPos;
+    }
 }
 

@@ -28,13 +28,13 @@ public class Car {
     
     public Car() {
         pth = new Path();
-        this.move();
+        this.pos = pth.getInitPos();
         this.startMoving();
     }
     
     public Car(Path pth) {
         this.pth = pth;
-        this.move();
+        this.pos = pth.getInitPos();
         this.startMoving();
     }
 

@@ -5,13 +5,9 @@
  */
 package org.drracke.cityMap;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
@@ -21,9 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 /**
  * @author Drracke
@@ -31,7 +24,7 @@ import javax.swing.JFrame;
 class City extends JFrame {
 
     private Canvas c;
-    private List<Car> cars; //shh, this is actually ArrayList, excep that it has to be synced and stuff....
+    private List<Car> cars; //shh, this is actually ArrayList, except that it has to be synced and stuff....
     public static final int mapDim = 500;
     public static final Random rnd = new Random();
     private BufferStrategy str;
