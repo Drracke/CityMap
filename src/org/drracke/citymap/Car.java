@@ -86,7 +86,7 @@ public class Car {
     private void move() {
         try {
         this.pos = this.pth.nextPos();
-        } catch (EndPathException e) {
+        } catch (PathException e) {
             this.moving = false;
         }
     }

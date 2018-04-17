@@ -21,7 +21,7 @@ public class CircularPath extends Path {
     }
     
     @Override
-    public Position nextPos() throws EndPathException {
+    public Position nextPos() throws PathException {
         super.crPos = crPos.increment((int)(Math.sin(index/10) * 15), (int) (Math.cos(index++/10)*15));
         return crPos;
     }

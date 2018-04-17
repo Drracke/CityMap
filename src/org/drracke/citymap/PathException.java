@@ -9,9 +9,9 @@ package org.drracke.citymap;
 /**
  * @author Drracke
  */
-public class EndPathException extends Throwable {
+public class PathException extends Throwable {
 
-    public EndPathException() {
+    public PathException() {
     }
 
 }
