@@ -18,21 +18,6 @@ public class Traffic {
     public static void main(String[] args) {
         City city = new City();
         city.begin();
-        for (int i = 0; i < 5; i++) {
-            new Path();
-        }
-
-        for (Path p :
-                Path.allPaths) {
-            System.out.print(p);
-            for (int[] foo : p.getPathLine()) {
-                for (int i : foo) {
-                    System.out.print(i + " ");
-                }
-            }
-            System.out.println();
-        }
-
-        city.repaint();
+        Path.loadFromFile();
     }        
 }

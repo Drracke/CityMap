@@ -1,5 +1,7 @@
 package org.drracke.cityMap.support;
 
+import org.drracke.cityMap.Path;
+
 import java.io.*;
 
 public class MapCreator {
@@ -19,12 +21,24 @@ public class MapCreator {
     }
 
     public static void main(String[] args) {
-
-
+        new MapCreator().makeRects();
     }
 
-    private void printLine(String line) throws IOException {
-        wrt.write(line);
+    public void makeRects() {
+        try {
+        wrt.write("0;200;" + Path.EAST + ";200\n");
+        wrt.write("200;200;" + Path.EAST + ";100\n");
+        wrt.write("200;300;" + Path.EAST + ";100\n");
+        wrt.write("300,300;" + Path.EAST + ";200\n");
+        wrt.write("300,0;" + Path.SOUTH + ";200\n");
+        wrt.write("300,200;" + Path.SOUTH + ";100\n");
+        wrt.write("200,200;" + Path.SOUTH + ";100\n");
+        wrt.write("200,300;" + Path.SOUTH + ";200\n");
+        wrt.flush();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
     }
 
 

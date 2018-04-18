@@ -95,6 +95,7 @@ class City extends JFrame {
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
+
             for (Car car : cars) {
                 car.painting(g);
             }

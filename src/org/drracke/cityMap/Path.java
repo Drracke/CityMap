@@ -6,6 +6,8 @@
 
 package org.drracke.cityMap;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +54,19 @@ public class Path {
      * "random" path
      */
     public Path() throws PathException {
-        this(new Position(allPaths.size() * 50, 50), 100, EAST);
+        this(new Position(50, allPaths.size() * 50), 100, EAST);
+    }
+
+    public static void loadFromFile() {
+        File sr = new File("simpleMap");
+        try {
+            Scanner sc = new Scanner(sr);
+            while(sc.hasNext()) {
+                fromString(sc.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Position nextPos(Position pos) throws PathException {
