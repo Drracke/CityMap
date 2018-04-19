@@ -6,6 +6,8 @@
 package org.drracke.citymap;
 
 
+import java.util.Scanner;
+
 /**
  *
  * @author majob_000
@@ -22,6 +24,11 @@ public class Traffic {
             city.addRandomCar();
         }
         city.addCar(new Car());
-        city.addCar(new Car(new CircularPath()));
+//        city.addCar(new Car(new CircularPath()));
+        Scanner s = new Scanner(System.in);
+        for(;;) {
+            s.nextInt();
+            city.addCar(new Car());
+        }
     }        
 }

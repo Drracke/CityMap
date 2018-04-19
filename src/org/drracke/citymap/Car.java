@@ -18,7 +18,7 @@ public class Car {
     private final Color col = Color.BLUE;
     private boolean moving = false;
     private Path pth;
-    protected final int refreshRate = 1000/15; //influences speed obviously
+    protected final int refreshRate = 1000/500; //influences speed obviously
 
     public Car(Position pos) {
         this.pos = pos;
