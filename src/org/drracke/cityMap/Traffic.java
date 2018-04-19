@@ -19,5 +19,9 @@ public class Traffic {
         City city = new City();
         city.begin();
         Path.loadFromFile();
+        for (Path p :
+                Path.allPaths) {
+            city.addCar(new Car(p));
+        }
     }        
 }

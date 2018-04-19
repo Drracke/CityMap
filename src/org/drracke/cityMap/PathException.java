@@ -14,4 +14,8 @@ public class PathException extends RuntimeException {
     public PathException() {
     }
 
+    public PathException(String s) {
+        super(s);
+    }
+
 }

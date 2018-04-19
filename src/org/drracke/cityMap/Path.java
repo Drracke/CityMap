@@ -45,7 +45,7 @@ public class Path {
                 && dir != WEST
                 && dir != SOUTH
                 && dir != NORTH) {
-            throw new PathException();
+            throw new PathException("Direction is wrong for " + this + ": " + dir);
         }
         this.direction = dir;
     }
@@ -87,7 +87,7 @@ public class Path {
                 pos.increment(-step, 0);
                 break;
             default:
-                throw new PathException();
+                throw new PathException("Direction is wrong for " + this + ": " + direction);
         }
         this.checkPos(pos);
         return pos;
@@ -171,8 +171,9 @@ public class Path {
         Scanner s = new Scanner(stringed);
         s.useDelimiter(";");
         Position init = new Position(s.nextInt(), s.nextInt());
-        int len = s.nextInt();
         int dir = s.nextInt();
+        int len = s.nextInt();
+
         Path ret = new Path(init, len, dir);
         //direction
         //length
