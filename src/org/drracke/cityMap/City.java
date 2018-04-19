@@ -31,7 +31,7 @@ class City extends JFrame {
     private long sleepTime = 5;
     private final int BUFFERS = 3;
     private Image img;
-    private boolean repainting = true;
+    private boolean repainting = false;
     private boolean showPaths = false;
     private ArrayList<int[][]> pathData;
 
