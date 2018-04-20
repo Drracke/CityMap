@@ -13,11 +13,4 @@ package org.drracke.cityMap;
 public class CircularPath extends Path {
 
     private double index = 0;
-
-    @Override
-    public Position nextPos(Position pos) throws PathException {
-        pos = pos.increment((int)(Math.sin(index/10) * 15), (int) (Math.cos(index++/10)*15));
-        return pos;
-    }
-    
 }

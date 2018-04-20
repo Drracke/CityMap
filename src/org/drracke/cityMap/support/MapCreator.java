@@ -1,12 +1,19 @@
 package org.drracke.cityMap.support;
 
-import org.drracke.cityMap.Path;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
 
 public class MapCreator {
+
+    public static final Random rnd = new Random(513);
+
+
     private File file;
     private FileWriter wrt;
+
 
     public MapCreator() {
         file = new File("simpleMap");
@@ -21,25 +28,29 @@ public class MapCreator {
     }
 
     public static void main(String[] args) {
-        new MapCreator().makeRects();
+        MapCreator mc = new MapCreator();
+        mc.makePoint();
+        mc.makePoint();
+        mc.makePoint();
+
     }
 
-    public void makeRects() {
+    private void makePoint() {
         try {
-        wrt.write("0;200;" + Path.EAST + ";200\n");
-        wrt.write("200;200;" + Path.EAST + ";100\n");
-        wrt.write("200;300;" + Path.EAST + ";100\n");
-        wrt.write("300,300;" + Path.EAST + ";200\n");
-        wrt.write("300,0;" + Path.SOUTH + ";200\n");
-        wrt.write("300,200;" + Path.SOUTH + ";100\n");
-        wrt.write("200,200;" + Path.SOUTH + ";100\n");
-        wrt.write("200,300;" + Path.SOUTH + ";200\n");
-        wrt.flush();
+            wrt.write(rnd.nextInt(500) + ";" + rnd.nextInt(500) + ";" + rnd.nextInt(500) + ";" + rnd.nextInt(500));
+            wrt.write("\n");
+            wrt.flush();
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("I am so so sorry, we cannot write this now");
         }
 
     }
 
-
+    private void stop() {
+        try {
+            wrt.close();
+        } catch (IOException e) {
+            System.out.println("This is a desaster, srsly");
+        }
+    }
 }

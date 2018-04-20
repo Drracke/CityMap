@@ -6,62 +6,61 @@
 
 package org.drracke.cityMap;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author Drracke
  */
 public class Path {
-    public static final int step = 5; //number of pixels passed in one step on every path
+    public static final int step = 1; //number of pixels passed in one step on every path
     public static final List<Path> allPaths;
+    public static boolean checkPerpendicularity = false;
 
-    public static final int NORTH = 0;
-    public static final int EAST = 1;
-    public static final int SOUTH = 2;
-    public static final int WEST = 3;
 
     private final Position initPos;
-    private final int length; //in pixels;
-    private final int direction;
-
-    private final Car[] collisions;
 
     static {
-        List one = Collections.synchronizedList(new ArrayList<>());
-        allPaths = one;
+        allPaths = Collections.synchronizedList(new ArrayList<>());
     }
+
+    private final Position lastPos;
+    private final float length; //in pixels;
+    private final float[] increase;
+    private Set<Integer> collisions;
 
     {
         allPaths.add(this);
+        collisions = Collections.synchronizedSet(new HashSet<>());
     }
 
-    public Path(Position initPos, int length, int dir) throws PathException {
+    public Path(Position initPos, Position lastPos) {
+        if (checkPerpendicularity)
+            if (initPos.x != lastPos.x && initPos.y != lastPos.y)
+                throw new PathException("would not be perpendicular path.");
         this.initPos = initPos;
-        this.length = length;
-        if (dir != EAST
-                && dir != WEST
-                && dir != SOUTH
-                && dir != NORTH) {
-            throw new PathException("Direction is wrong for " + this + ": " + dir);
-        }
-        this.direction = dir;
-        this.collisions = new Car[length];
+        this.lastPos = lastPos;
+        this.length = (float) lastPos.distance(lastPos);
+        increase = new float[2];
+        increase[0] = lastPos.x - initPos.x;
+        increase[1] = lastPos.y - initPos.y;
     }
 
     /**
      * "random" path
      */
     public Path() throws PathException {
-        this(new Position(50, allPaths.size() * 50), 100, EAST);
+
+        this(new Position(50, allPaths.size() * 50), new Position(150, allPaths.size() * 50));
+        if (allPaths.size() > 10)
+            System.out.println("You will not see the path");
     }
 
-    public static void loadFromFile() {
-        File sr = new File("simpleMap");
+    public static void loadFromFile(String file) {
+        File sr = new File(file);
         try {
             Scanner sc = new Scanner(sr);
             while(sc.hasNext()) {
@@ -72,100 +71,14 @@ public class Path {
         }
     }
 
-    public Position nextPos(Position pos) throws PathException {
-        if (pos == null)
-            throw new RuntimeException("null position :/");
-        this.checkPos(pos);
-        switch (this.direction) {
-            case EAST:
-                pos.increment(step, 0);
-                break;
-            case NORTH:
-                pos.increment(0, -step);
-                break;
-            case SOUTH:
-                pos.increment(0, step);
-                break;
-            case WEST:
-                pos.increment(-step, 0);
-                break;
-            default:
-                throw new PathException("Direction is wrong for " + this + ": " + direction);
-        }
-        this.checkPos(pos);
-        return pos;
-    }
-
-    @Override
-    public String toString() {
-        return "{[" + this.initPos.x + "," + this.initPos.y + "] ; " + "dir: " + this.direction + ", length " + length
-                + "}";
-    }
-
-    private synchronized void checkPos(Position pos) throws PathException {
-        boolean badPos = true;
-
-        if (pos.x == initPos.x)
-            badPos = false;
-        if (pos.y == initPos.y)
-            badPos = false;
-        switch (direction) {
-            case EAST:
-                if (pos.x > initPos.x + length) badPos = true;
-                break;
-            case NORTH:
-                if (pos.y < initPos.y - length) badPos = true;
-                break;
-            case SOUTH:
-                if (pos.x > initPos.x + length) badPos = true;
-                break;
-            case WEST:
-                if (pos.y < initPos.x - length) badPos = true;
-                break;
-            default:
-                badPos = true;
-        }
-
-        if (badPos) {
-            throw new PathException();
-        }
-    }
-
-    public int[][] getPathLine() throws PathException {
-        int xS;
-        int yS;
-        switch (this.direction) {
-            case EAST:
-                xS = initPos.x + length;
-                yS = initPos.y;
-                break;
-            case NORTH:
-                xS = initPos.x;
-                yS = initPos.y - length;
-                break;
-            case SOUTH:
-                xS = initPos.x;
-                yS = initPos.y + length;
-                break;
-            case WEST:
-                xS = initPos.x - length;
-                yS = initPos.y;
-                break;
-            default:
-                throw new PathException();
-        }
-
-
-        return new int[][]{
-                {initPos.x, xS},
-                {initPos.y, yS}
-        };
+    public static void loadFromFile() {
+        loadFromFile("simpleMap");
     }
 
     /**
      * Creates path from string. It needs following format, all and everything are to be ints.
      * <p>
-     * initX; initY; len; dir;
+     * initX; initY; finX; fin Y;
      *
      * @param stringed source of data for creation of Path, pattern described above
      * @return
@@ -174,19 +87,84 @@ public class Path {
         Scanner s = new Scanner(stringed);
         s.useDelimiter(";");
         Position init = new Position(s.nextInt(), s.nextInt());
-        int dir = s.nextInt();
-        int len = s.nextInt();
+        Position last = new Position(s.nextInt(), s.nextInt());
 
-        Path ret = new Path(init, len, dir);
-        //direction
-        //length
-        //will only be straight lines
-
+        Path ret = new Path(init, last);
         return ret;
+    }
+
+    public Position nextPos(Position pos) throws PathException {
+        int step = this.toInt(pos);
+        if (this.checkPos(step + 1)) {
+            this.removeObstacle(step++);
+            return this.toPos(step);
+        } else {
+            throw new PathException("Collision");
+        }
+
+
+    }
+
+    private int toInt(Position position) {
+        return Math.round(Math.round(initPos.distance(position)));
+    }
+
+    private Position toPos(int dist) {
+        return new Position(dist * increase[0], dist * increase[1]);
+    }
+
+    @Override
+    public String toString() {
+        return "{[" + this.initPos.x + "," + this.initPos.y + "] ; [" + this.lastPos.x + ", " + lastPos.y + "]}";
+    }
+
+    /**
+     * Is there someone at that distance?
+     *
+     * @param where distance at which we check
+     * @return true if someone is there
+     * @throws PathException
+     */
+    private boolean checkPos(int where) throws PathException {
+        if (where == 0)
+            throw new PathException("Start");
+        if (where == length)
+            throw new PathException("The End");
+        for (int i = where; i < where + Car.SIZE; i++) {
+            if (collisions.contains(i))
+                return true;
+        }
+        return false;
+
+    }
+
+    private void addObstacle(int where) {
+        if (!collisions.add(where))
+            throw new RuntimeException("there is something there at " + where);
+    }
+
+    private void removeObstacle(int where) {
+        if (!collisions.remove(where))
+            throw new RuntimeException("there never was anything there at " + where);
+    }
+
+    /*
+    This is not the best way I think
+     */
+    public int[][] getPathLine() throws PathException {
+        Point p = initPos.drawable();
+        return new int[][]{
+                {p.x, p.x},
+                {p.y, p.y}
+        };
     }
 
     public Position getInitPos() {
         return this.initPos;
+    }
+
+    public Position getLastPos() {
+        return this.lastPos;
     }
 }
 

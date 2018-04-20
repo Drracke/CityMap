@@ -5,16 +5,17 @@
  */
 package org.drracke.cityMap;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * @author Drracke
  */
 public class Car {
 
+    public static final int SIZE = 10;
+
     private Position pos;
-    private final int size = 10;
+    private final int size = SIZE;
     private final Color col = Color.BLUE;
     private boolean moving = false;
     private Path pth;
@@ -39,6 +40,7 @@ public class Car {
     }
 
     public void painting(Graphics g) {
+        Point pos = this.pos.drawable();
         int x = pos.x - this.size / 2;
         int y = pos.y - this.size / 2;
         g.setColor(col);

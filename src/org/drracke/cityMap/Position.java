@@ -6,24 +6,23 @@
 
 package org.drracke.cityMap;
 
-import java.awt.Point;
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * @author Drracke
  * so far only point.. thats it.
  */
-public class Position extends Point {
+public class Position extends Point2D.Float {
 
-    public Position(int x, int y) {
+    public Position(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public Position increment(int xIncr, int yIncr) {
-        int nX = this.x += xIncr;
-        int nY = this.y += yIncr;
-        
-        return new Position(nX,nY);
+    public void increment(float dx, float dy) {
+        x += dx;
+        y += dy;
     }
     
     @Override 
@@ -33,6 +32,10 @@ public class Position extends Point {
         Position reTyped = (Position) o;
         return reTyped.x == this.x && reTyped.y == this.y;
         
+    }
+
+    public Point drawable() {
+        return new Point(Math.round(x), Math.round(y));
     }
     
     

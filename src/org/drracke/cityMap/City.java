@@ -67,6 +67,7 @@ class City extends JFrame {
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("stop pressed");
                 City.this.stopAll();
                 repainting = false;
             }
@@ -74,6 +75,7 @@ class City extends JFrame {
         paths.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("paths pressed");
                 showPaths = !showPaths;      
             }
         });
@@ -82,6 +84,7 @@ class City extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("start pressed");
                 City.this.startAll();
                 
                 if (repainting) 
@@ -168,7 +171,7 @@ class City extends JFrame {
             public void run() {
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e) {;
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 repainting = true;
