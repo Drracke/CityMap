@@ -107,7 +107,7 @@ class City extends JFrame {
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
-
+            //g.clearRect(0,0,500,500);
             for (Car car : cars) {
                 car.painting(g);
             }
@@ -120,7 +120,7 @@ class City extends JFrame {
     }
     
     
-    private void paintingPaths(ArrayList<int[][]> paths){
+    public void paintingPaths(ArrayList<int[][]> paths){
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
@@ -194,6 +194,10 @@ class City extends JFrame {
         for (Path pth : Path.allPaths) {
             this.pathData.add(pth.getPathLine());
         }
+    }
+
+    public void alphaPaintingPaths() {
+        this.paintingPaths();
     }
 
 }

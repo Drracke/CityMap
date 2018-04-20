@@ -23,5 +23,7 @@ public class Traffic {
                 Path.allPaths) {
             city.addCar(new Car(p));
         }
+
+        city.alphaPaintingPaths();
     }        
 }
