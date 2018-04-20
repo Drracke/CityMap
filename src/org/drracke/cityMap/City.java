@@ -34,6 +34,7 @@ class City extends JFrame {
     private boolean repainting = false;
     private boolean showPaths = false;
     private ArrayList<int[][]> pathData;
+    private boolean clearing = true;
 
 
     public City() {
@@ -107,7 +108,8 @@ class City extends JFrame {
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
-            //g.clearRect(0,0,500,500);
+            if (clearing)
+                g.clearRect(0,0,500,500);
             for (Car car : cars) {
                 car.painting(g);
             }
