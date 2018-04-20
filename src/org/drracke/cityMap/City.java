@@ -35,6 +35,7 @@ class City extends JFrame {
     private boolean showPaths = false;
     private ArrayList<int[][]> pathData;
 
+
     public City() {
         super("This is the city");
         cars = Collections.synchronizedList(new ArrayList<>());

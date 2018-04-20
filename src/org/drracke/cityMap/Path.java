@@ -29,6 +29,8 @@ public class Path {
     private final int length; //in pixels;
     private final int direction;
 
+    private final Car[] collisions;
+
     static {
         List one = Collections.synchronizedList(new ArrayList<>());
         allPaths = one;
@@ -48,6 +50,7 @@ public class Path {
             throw new PathException("Direction is wrong for " + this + ": " + dir);
         }
         this.direction = dir;
+        this.collisions = new Car[length];
     }
 
     /**
