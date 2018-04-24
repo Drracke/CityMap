@@ -4,14 +4,18 @@
  * and open the template in the editor.
  */
 
-package org.drracke.citymap;
+package org.drracke.cityMap;
 
 /**
  * @author Drracke
  */
-public class EndPathException extends Throwable {
+public class PathException extends RuntimeException {
 
-    public EndPathException() {
+    public PathException() {
+    }
+
+    public PathException(String s) {
+        super(s);
     }
 
 }

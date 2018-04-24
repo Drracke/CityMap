@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.drracke.citymap;
+package org.drracke.cityMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 /**
  * @author Drracke
@@ -24,7 +27,7 @@ import java.util.Random;
 class City extends JFrame {
 
     private Canvas c;
-    private List<Car> cars; //shh, this is actually ArrayList, excep that it has to be synced and stuff....
+    private List<Car> cars; //shh, this is actually ArrayList, except that it has to be synced and stuff....
     public static final int mapDim = 500;
     public static final Random rnd = new Random();
     private BufferStrategy str;
@@ -34,6 +37,8 @@ class City extends JFrame {
     private boolean repainting = false;
     private boolean showPaths = false;
     private ArrayList<int[][]> pathData;
+    private boolean clearing = true;
+
 
     public City() {
         super("This is the city");
@@ -65,6 +70,7 @@ class City extends JFrame {
         stop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("stop pressed");
                 City.this.stopAll();
                 repainting = false;
             }
@@ -72,7 +78,8 @@ class City extends JFrame {
         paths.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showPaths = !showPaths;      
+                System.out.println("paths pressed");
+                showPaths = !showPaths;
             }
         });
         start.addActionListener(new ActionListener() {
@@ -80,6 +87,7 @@ class City extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("start pressed");
                 City.this.startAll();
                 
                 if (repainting) 
@@ -106,7 +114,8 @@ class City extends JFrame {
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
-            g.drawImage(img, 0, 0, this);
+            if (clearing)
+                g.clearRect(0,0,500,500);
             for (Car car : cars) {
                 car.painting(g);
             }
@@ -119,7 +128,7 @@ class City extends JFrame {
     }
     
     
-    private void paintingPaths(ArrayList<int[][]> paths){
+    public void paintingPaths(ArrayList<int[][]> paths){
         Graphics g = null;
         do {
             g = str.getDrawGraphics();
@@ -193,6 +202,10 @@ class City extends JFrame {
         for (Path pth : Path.allPaths) {
             this.pathData.add(pth.getPathLine());
         }
+    }
+
+    public void alphaPaintingPaths() {
+        this.paintingPaths();
     }
 
 }

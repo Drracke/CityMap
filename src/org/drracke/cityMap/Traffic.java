@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.drracke.citymap;
+package org.drracke.cityMap;
 
 
 import java.util.Scanner;
@@ -20,9 +20,13 @@ public class Traffic {
     public static void main(String[] args) {
         City city = new City();
         city.begin();
-        for (int i = 0; i < 5; i++) {
-            city.addRandomCar();
+        Path.loadFromFile();
+        for (Path p :
+                Path.allPaths) {
+            city.addCar(new Car(p));
         }
+
+        city.alphaPaintingPaths();
         city.addCar(new Car());
 //        city.addCar(new Car(new CircularPath()));
         Scanner s = new Scanner(System.in);
@@ -30,5 +34,5 @@ public class Traffic {
             s.nextInt();
             city.addCar(new Car());
         }
-    }        
+    }
 }

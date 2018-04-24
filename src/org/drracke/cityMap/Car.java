@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.drracke.citymap;
+package org.drracke.cityMap;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * @author Drracke
  */
 public class Car {
 
+    public static final int SIZE = 10;
+
     private Position pos;
-    private final int size = 10;
+    private final int size = SIZE;
     private final Color col = Color.BLUE;
     private boolean moving = false;
     private Path pth;
@@ -23,22 +24,23 @@ public class Car {
     public Car(Position pos) {
         this.pos = pos;
         this.startMoving();
-        pth = new Path(pos);
+        pth = new Path();
     }
     
     public Car() {
         pth = new Path();
-        this.move();
+        this.pos = pth.getInitPos();
         this.startMoving();
     }
     
     public Car(Path pth) {
         this.pth = pth;
-        this.move();
+        this.pos = pth.getInitPos();
         this.startMoving();
     }
 
     public void painting(Graphics g) {
+        Point pos = this.pos.drawable();
         int x = pos.x - this.size / 2;
         int y = pos.y - this.size / 2;
         g.setColor(col);
@@ -85,8 +87,8 @@ public class Car {
 
     private void move() {
         try {
-        this.pos = this.pth.nextPos();
-        } catch (EndPathException e) {
+        this.pos = this.pth.nextPos(this.pos);
+        } catch (PathException e) {
             this.moving = false;
         }
     }
