@@ -30,9 +30,11 @@ public class Traffic {
         city.addCar(new Car());
 //        city.addCar(new Car(new CircularPath()));
         Scanner s = new Scanner(System.in);
-        for(;;) {
+        for (int i = 0; i < 10; i++) {
             s.nextInt();
             city.addCar(new Car());
+
         }
+
     }
 }

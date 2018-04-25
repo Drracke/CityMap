@@ -23,7 +23,7 @@ import java.util.Random;
  */
 class City extends JFrame {
 
-    private Canvas c;
+    private JPanel c;
     private List<Car> cars; //shh, this is actually ArrayList, except that it has to be synced and stuff....
     public static final int mapDim = 500;
     public static final Random rnd = new Random();
@@ -50,7 +50,7 @@ class City extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container cont = this.getContentPane();
         cont.setLayout(new FlowLayout());
-        c = new Canvas() {
+        c = new JPanel() {
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(City.mapDim, City.mapDim);
@@ -58,6 +58,12 @@ class City extends JFrame {
 
             @Override
             public void paint(Graphics g) {
+                System.out.println("painting");
+            }
+
+            @Override
+            public void paintComponents(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
             }
         };
         cont.add(c);
@@ -97,8 +103,6 @@ class City extends JFrame {
         cont.add(start);
 
         this.pack();
-        c.createBufferStrategy(BUFFERS);
-        str = c.getBufferStrategy();
         this.setLocationRelativeTo(null);
         this.startRepaingin();
     }

@@ -13,14 +13,14 @@ import java.awt.geom.Point2D;
  * @author Drracke
  * so far only point.. thats it.
  */
-public class Position extends Point2D.Float {
+public class Position extends Point2D.Double {
 
-    public Position(float x, float y) {
+    public Position(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public void increment(float dx, float dy) {
+    public void increment(double dx, double dy) {
         x += dx;
         y += dy;
     }
@@ -34,8 +34,8 @@ public class Position extends Point2D.Float {
         
     }
 
-    public Point drawable() {
-        return new Point(Math.round(x), Math.round(y));
+    public Point getIntPoint() {
+        return new Point((int)this.x, (int) this.y);
     }
     
     

@@ -2,6 +2,8 @@ package org.drracke.cityMap.support;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.PushbackReader;
 
 public class Justifier {
 
@@ -23,7 +25,7 @@ public class Justifier {
 
     }
 
-    public static void main(String[] args) {
+    public static void muchmore(String[] args) {
         Justifier j = new Justifier();
 
 
