@@ -166,5 +166,12 @@ public class Path {
     public Position getLastPos() {
         return this.lastPos;
     }
+
+
+    //------ remakiooo
+
+    public void next(Position pos) {
+        pos.increment(step, step);
+    }
 }
 
